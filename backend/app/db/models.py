@@ -19,20 +19,20 @@ class Track(Base):
     preview_url = Column(String, nullable=True)
     created_at = Column(DateTime, server_default=func.now())
 
-class AudioFeatures(Base):
-    __tablename__ = 'audio_features'
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    track_id = Column(String, ForeignKey('tracks.spotify_id'))
-    acousticness = Column(Float)
-    danceability = Column(Float)
-    energy = Column(Float)
-    instrumentalness = Column(Float)
-    tempo = Column(Float)
-    loudness = Column(Float)
-    liveness = Column(Float)
-    speechiness = Column(Float)
-    fetched_at = Column(DateTime, server_default=func.now())
-    valence = Column(Float)
+# class AudioFeatures(Base):
+#     __tablename__ = 'audio_features'
+#     id = Column(Integer, primary_key=True, autoincrement=True)
+#     track_id = Column(String, ForeignKey('tracks.spotify_id'))
+#     acousticness = Column(Float)
+#     danceability = Column(Float)
+#     energy = Column(Float)
+#     instrumentalness = Column(Float)
+#     tempo = Column(Float)
+#     loudness = Column(Float)
+#     liveness = Column(Float)
+#     speechiness = Column(Float)
+#     fetched_at = Column(DateTime, server_default=func.now())
+#     valence = Column(Float)
 
 class ChartSnapshot(Base):
     __tablename__ = 'chart_snapshots'
@@ -41,6 +41,7 @@ class ChartSnapshot(Base):
     market = Column(String)
     position = Column(Integer)
     snapshot_date = Column(Date)
+    popularity = Column(Integer)
 
     __table_args__ = (
         UniqueConstraint('track_id', 'market', 'snapshot_date'),
