@@ -8,31 +8,29 @@ def collect_data():
     session = SessionLocal()
     sp = SpotifyClient()
 
-    countries = ["PL", "UK", "US"]
+    countries = ["PL", "GB", "US"]
     for country in countries:
-        new_albums = sp.get_new_releases(country)
-        for album in new_albums:
-            tracks = sp.get_album_tracks(album['id'])
-            track_ids = [track['id'] for track in tracks]
-            tracks_details = sp.get_tracks_details(track_ids)
-            for track in tracks_details:
-                session.merge(Track(spotify_id = track['id'],
-                name = track['name'],
-                artist = track['artists'][0]['name'],
-                album = track['album']['name'],
-                album_image = track['album']['images'][0]['url'],
-                popularity = track['popularity'],
-                duration_ms = track['duration_ms'],
-                preview_url = track['preview_url'],
-        ))
-                session.flush()
-                session.add(ChartSnapshot(track_id = track['id'],
-                market = country,
-                position = None,
-                snapshot_date = date.today(),
-                popularity = track['popularity']))
-
-            session.commit()
+        tracks = sp.get_popular_tracks(country)
+        for i, track in enumerate(tracks):
+            session.merge(Track(
+                spotify_id=track['id'],
+                name=track['name'],
+                artist=track['artists'][0]['name'],
+                album=track['album']['name'],
+                album_image=track['album']['images'][0]['url'] if track['album']['images'] else None,
+                popularity=track['popularity'],
+                duration_ms=track['duration_ms'],
+                preview_url=track.get('preview_url'),
+            ))
+            session.flush()
+            session.merge(ChartSnapshot(
+                track_id=track['id'],
+                market=country,
+                position=i + 1,
+                snapshot_date=date.today(),
+                popularity=track['popularity'],
+            ))
+        session.commit()
     session.close()
 
 

@@ -21,7 +21,7 @@ function App() {
         <h1 className="text-3xl font-bold mb-4">Spotify Trends</h1>
         <select className="border p-2 rounded mb-4" value={selectedMarket} onChange={e => setSelectedMarket(e.target.value)}>
             {markets.map(m => (
-                <option key={m} value={m}>{m}</option>
+                <option key={m} value={m}>{{PL: 'Poland', US: 'United States', GB: 'United Kingdom'}[m] || m}</option>
             ))}
         </select>
         {tracks.map(track => (
@@ -31,7 +31,10 @@ function App() {
                     <p className="font-semibold">{track.name}</p>
                     <p className="text-sm text-gray-500">{track.artist} · {track.album}</p>
                 </div>
-                <span className="ml-auto text-green-600 font-bold">{track.popularity}</span>
+                <div className="ml-auto text-center">
+                    <span className="text-green-600 font-bold text-lg">{track.popularity}</span>
+                    <p className="text-xs text-gray-400">popularity</p>
+                </div>
             </div>
         ))}
     </div>

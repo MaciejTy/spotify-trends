@@ -9,14 +9,14 @@ class SpotifyClient:
         client_id=settings.spotify_client_id,
         client_secret=settings.spotify_client_secret))
 
-    def get_new_releases(self, country, limit=50):
-        results = self.sp.new_releases(country, limit=limit)
-        return results['albums']['items']
-
-    def get_album_tracks(self, album_id):
-        results = self.sp.album_tracks(album_id)
-        return results['items']
-
-    def get_tracks_details(self, track_ids):
-        results = self.sp.tracks(track_ids)
-        return results['tracks']
+    def get_popular_tracks(self, market, limit=50):
+        seen = set()
+        tracks = []
+        for query in ['year:2026', 'year:2025', 'genre:pop', 'genre:hip-hop', 'genre:rock']:
+            results = self.sp.search(q=query, type='track', market=market, limit=limit)
+            for t in results['tracks']['items']:
+                if t['id'] not in seen:
+                    seen.add(t['id'])
+                    tracks.append(t)
+        tracks.sort(key=lambda t: t['popularity'], reverse=True)
+        return tracks[:limit]

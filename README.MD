@@ -1,6 +1,6 @@
 # 🎵 Spotify Trends Pipeline
 
-A full-stack data pipeline that collects daily music release data from Spotify across multiple markets, tracks popularity changes over time, and visualizes trends through an interactive dashboard.
+A full-stack data pipeline that collects daily popular tracks from Spotify across multiple markets, tracks popularity changes over time, and visualizes trends through an interactive dashboard.
 
 ## Tech Stack
 
@@ -14,7 +14,7 @@ A full-stack data pipeline that collects daily music release data from Spotify a
 ```
 Spotify API
      ↓
-[Collector] → Fetches new releases & track details daily (APScheduler)
+[Collector] → Fetches popular tracks per market daily (APScheduler)
      ↓
 [Processor] → Normalizes data, extracts popularity scores
      ↓
@@ -27,7 +27,7 @@ Spotify API
 
 ## Features
 
-- **Automated daily collection** of new music releases from Spotify across multiple markets (PL, US, UK)
+- **Automated daily collection** of popular tracks from Spotify across multiple markets (PL, US, GB)
 - **Popularity tracking** over time — see how tracks rise and fall
 - **Market comparison** — compare music trends across different countries
 - **Interactive dashboard** with album artwork, popularity scores, and market selector
@@ -58,13 +58,12 @@ Spotify API
 
 2. **Configure environment**
    ```bash
-   cp backend/.env.example backend/.env
+   cp .env.example .env
    ```
-   Edit `backend/.env` and add your Spotify API credentials:
+   Edit `.env` and add your Spotify API credentials:
    ```
    SPOTIFY_CLIENT_ID=your_client_id
    SPOTIFY_CLIENT_SECRET=your_client_secret
-   DATABASE_URL=postgresql://postgres:postgres@db:5432/spotify_trends
    ```
 
 3. **Run with Docker Compose**
