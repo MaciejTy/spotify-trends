@@ -26,6 +26,7 @@ wheels/
 *.egg
 
 # Environment variables
+.env
 backend/.env
 .env.local
 .env.*.local
